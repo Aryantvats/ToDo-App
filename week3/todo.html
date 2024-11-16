@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TODO app</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <body>
+    <div class="box">
+      <h1 style="color: darkgoldenrod;"><b>TODO APP</b></h1>
+      <div class="head">
+        <input type="text">
+        <button onclick="addTodo()">Add todo!</button>
+  
+        <button onclick="deleteLastTodo()">Delete last todo</button>
+  
+        <button onclick="deleteFirstTodo()">Delete first todo</button>
+      </div>
+      <div id="todos" class="todos"></div>
+    </div>
+    <script>
+      let todos = [];
+      function addTodo() {
+        todos.push({
+          title: document.querySelector("input").value
+        })
+        render()
+      }
+  
+      function deleteLastTodo() {
+        todos.splice(todos.length - 1, 1) // remove the last element from the arr
+        render()
+      }
+  
+  
+      function deleteFirstTodo() {
+        todos.splice(0, 1) // remove the last element from the arr
+        render()
+      }
+      function deletetodo(index){
+        if (index > -1) {
+          todos.splice(index, 1);
+        }
+        render();
+      }
+      
+      function edittodo(index){
+        // const edit=prompt("Edit this todo",todos[index].title);
+        const input = document.querySelector(".ip-"+index);
+        input.removeAttribute("disabled"); // Enable editing
+        input.focus(); 
+        const editButton = document.querySelector(`.Edit-${index}`);
+        editButton.innerHTML = "Save";
+        editButton.setAttribute("onclick", `savetodo(${index})`);
+      }
+  
+      function savetodo(index){
+        const input=document.querySelector(".ip-"+index);
+        todos[index].title = input.value;
+        input.setAttribute("disabled", true);
+  
+        const saveButton = document.querySelector(`.Edit-${index}`);
+        saveButton.innerHTML = "Edit";
+        saveButton.setAttribute("onclick", `edittodo(${index})`);
+      }
+  
+      function createTodoComponent(todo,index) {
+        const div = document.createElement("span");
+        const btndiv = document.createElement("div");
+  
+        const input = document.createElement("input");
+        input.setAttribute("class","ip-"+index);
+        input.type="text";
+        input.style.border="none";
+        input.style.fontSize="1rem";
+        input.setAttribute("disabled", true);
+        const button = document.createElement("button");
+        button.innerHTML = "Delete";
+        const button2 = document.createElement("button");
+        button2.setAttribute("class","Edit-"+index);
+        button2.innerHTML = "Edit";
+        button.setAttribute("onclick","deletetodo("+index+")");
+        button2.setAttribute("onclick","edittodo("+index+")");
+        input.value = todo.title;
+        div.append(input)
+        btndiv.append(button)
+        btndiv.append(button2)
+        div.append(btndiv)
+        return div
+      }
+      
+  
+      // react 
+      function render() {
+        document.querySelector("#todos").innerHTML = "";
+        for (let i = 0; i < todos.length; i++) {
+          const element = createTodoComponent(todos[i],i);
+          document.querySelector("#todos").appendChild(element);
+        }
+        document.querySelector("input").value="";
+  
+      }
+  
+    </script>
+  
+  </body>
+</body>
+</html>
