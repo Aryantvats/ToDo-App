@@ -23,9 +23,15 @@
     <script>
       let todos = [];
       function addTodo() {
+        const i=document.querySelector("input").value;
+        if(i==""){
+          alert("no task given");
+          return;
+        }
         todos.push({
-          title: document.querySelector("input").value
+          title: i
         })
+        
         render()
       }
   
@@ -47,7 +53,6 @@
       }
       
       function edittodo(index){
-        // const edit=prompt("Edit this todo",todos[index].title);
         const input = document.querySelector(".ip-"+index);
         input.removeAttribute("disabled"); // Enable editing
         input.focus(); 
@@ -58,9 +63,14 @@
   
       function savetodo(index){
         const input=document.querySelector(".ip-"+index);
+        if(input.value==""){
+          alert("no task given");
+          todos.splice(index,1);
+          render();
+          return;
+        }
         todos[index].title = input.value;
         input.setAttribute("disabled", true);
-  
         const saveButton = document.querySelector(`.Edit-${index}`);
         saveButton.innerHTML = "Edit";
         saveButton.setAttribute("onclick", `edittodo(${index})`);
