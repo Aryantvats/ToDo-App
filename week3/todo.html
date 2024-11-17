@@ -79,8 +79,8 @@
       function createTodoComponent(todo,index) {
         const div = document.createElement("span");
         const btndiv = document.createElement("div");
-  
         const input = document.createElement("input");
+        
         input.setAttribute("class","ip-"+index);
         input.type="text";
         input.style.border="none";
@@ -93,6 +93,7 @@
         button2.innerHTML = "Edit";
         button.setAttribute("onclick","deletetodo("+index+")");
         button2.setAttribute("onclick","edittodo("+index+")");
+        
         input.value = todo.title;
         div.append(input)
         btndiv.append(button)
